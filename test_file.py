@@ -35,7 +35,7 @@ db.stanovi.aggregate([
     },
     {
         '$lookup': {
-            'from': 'istorija',
+            'from': 'test_cene',
             'localField': 'link',
             'foreignField': 'link',
             'as': 'istorija_cena'
