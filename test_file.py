@@ -3,7 +3,6 @@ from datetime import datetime
 from pymongo import MongoClient
 from multiprocessing import Pool
 
-
 # def send_req(link):
 #     user_agent = {'user-agent': 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0'}
 #     http = urllib3.PoolManager(2, headers=user_agent)
@@ -25,6 +24,35 @@ coursors = test_price.find({})
 
 for coursor in coursors:
     print(coursor['istorija'])
+
+db.stanovi.aggregate([
+    {
+        "$match": {
+            "link": {
+                "$ne": 0
+            }
+        }
+    },
+    {
+        '$lookup': {
+            'from': 'istorija',
+            'localField': 'link',
+            'foreignField': 'link',
+            'as': 'istorija_cena'
+        }
+    },
+    {
+        '$unwind': '$istorija_cena'
+    },
+    {
+        '$group': {
+            '_id': '$istorija_cena.date',
+            'averagePrice': {
+                '$avg': '$istorija_cena.cena'
+            }
+        }
+    }
+])
 
 # start_time = datetime.now()
 # last_id = None
@@ -48,4 +76,3 @@ for coursor in coursors:
 # end = datetime.now()
 # diff = int((end - start_time).total_seconds())
 # print(diff)
-
