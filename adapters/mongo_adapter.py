@@ -5,14 +5,10 @@ class MongoAdapter:
     def __init__(self, database_name):
         self.client = MongoClient('localhost', 27017)
         self.db = self.client[database_name]
-        self.a = {'cena': 2000.0, 'cena_m2': 18, 'naselje': 'Hram Svetog Save (Vračar)', 'zona': 'Stambena zona', 'grejanje': 'Centralno grejanje', 'sprat': 'Namešten', 'parking': 'da', 'kuhinja': '1', 'dnevne': '1', 'kupatila': '1', 'wc': '1', 'dodatno': 'Luksuzno', 'objavljeno': '06/11/2019', 'azurirano': '17/12/2019', 'kod_sistema': '9140670', 'link': 'https://www.srbija-nekretnine.org/6980510', 'stanje': '', 'adresa': '', 'kod_oglasa': 0, 'nivoi': 0, 'tip': '', 'kvadratura': 112}
 
     def insert_one(self, o, collection):
         try:
             collection = self.db[collection]
-            # collection.insert_one(self.a)
-            # print('insertujem')
-            print(o)
             collection.insert_one(o)
         except Exception as e:
             print(e)
