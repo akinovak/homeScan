@@ -38,5 +38,5 @@ class MongoAdapter:
 
     def find(self, o, collection, limit):
         collection = self.db[collection]
-        cursor = collection.find(o).sort({'link': 1}).limit(limit)
+        cursor = collection.find(o).limit(limit)
         return cursor
