@@ -19,6 +19,9 @@ class MongoRepository:
         if found:
             self.mongo_adapter.update_one(
                 {'link': o['link']},
+                {'cena': o['cena']}, collection)
+            self.mongo_adapter.update_one(
+                {'link': o['link']},
                 {'$set': {self._prepare_string(): o['cena']}}, 'test_cene')
         else:
             self.mongo_adapter.insert_one(o, collection)
