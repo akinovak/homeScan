@@ -1,4 +1,5 @@
 from transformers.srbija_nekretnine_transformer import SrbijaNekretnineTransformer
+from transformers.polovni_automobili_transformer import PolovniAutomobiliTransformer
 from adapters.mongo_adapter import MongoAdapter
 from repository.mongo_repository import MongoRepository
 
@@ -54,6 +55,41 @@ class Ctx:
 
         }
 
+        self.pa_transform_map = {
+            'Model': 'model',
+            'Marka': 'marka',
+            'Link': 'link',
+            'Cena': 'cena',
+            'Godište': 'godiste',
+            'Karoserija': 'karoserija',
+            'Gorivo': 'gorivo',
+            'Kubikaža': 'kubikaza',
+            'Snaga motora': 'snaga',
+            'Kilometraža': 'kilometraza',
+            'Emisiona klasa motora': 'emisiona_klasa_motora',
+            'Pogon': 'pogon',
+            'Menjač': 'menjac',
+            'Vozilo:': 'vozilo',
+            'Mesto': 'mesto'
+        }
+
+        self.pa_default_map = {
+            'model': '',
+            'marka': '',
+            'link': '',
+            'cena': '',
+            'godiste': 0,
+            'snaga': 0,
+            'gorivo': '',
+            'kubikaza': '',
+            'kilometraza': 0,
+            'emisiona_klasa_motora': '',
+            'pogon': '',
+            'menjac': '',
+            'vozilo': '',
+            'mesto': ''
+        }
+
         self.user_agents = [
             ('Mozilla/5.0 (X11; Linux x86_64) '
              'AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -81,7 +117,8 @@ class Ctx:
         ]
 
         self.sn_transformer = SrbijaNekretnineTransformer(self.transform_map, self.default_map)
-        self.mongo_adapter = MongoAdapter('stanovi')
+        self.pa_transformer = PolovniAutomobiliTransformer(self.pa_transform_map, self.pa_default_map)
+        self.mongo_adapter = MongoAdapter('Polovni')
         self.mongo_repository = MongoRepository(self.mongo_adapter)
 
 

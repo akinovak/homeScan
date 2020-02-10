@@ -15,23 +15,20 @@ from multiprocessing import Pool
 
 
 client = MongoClient('localhost', 27017)
-db = client['stanovi']
-stanovi = db['stanovi']
-test = db['test']
+db = client['Polovni']
+polovni = db['polovni']
 test_price = db['test_cene']
 
-coursors = test_price.find({})
 
-for coursor in coursors:
-    print(coursor['istorija'])
-
-db.stanovi.aggregate([
-    {
-        "$match": {
+nesto = {
             "link": {
                 "$ne": 0
-            }
+            },
+            "marka": "Audi"
         }
+lista = list(polovni.aggregate([
+    {
+        "$match": nesto
     },
     {
         '$lookup': {
@@ -48,11 +45,12 @@ db.stanovi.aggregate([
         '$group': {
             '_id': '$istorija_cena.date',
             'averagePrice': {
-                '$avg': '$istorija_cena.cena'
+                '$avg': '$istorija_cena.price'
             }
         }
     }
-])
+]))
+print(lista)
 
 # start_time = datetime.now()
 # last_id = None

@@ -1,16 +1,21 @@
+from datetime import datetime
+
 from config import ctx
 import urllib3
-from multiprocessing import Pool
+from multiprocessing import Pool, Manager
 import random
 import sys
+from adapters.mongo_adapter import MongoAdapter
 
 collection = sys.argv[1]
 
+shared_delete_link_list = Manager().list()
 
 def handle_response_code(link, code):
     if 400 <= code <= 500:
-        ctx.mongo_adapter.delete_one({'link': link}, collection)
-        ctx.mongo_adapter.delete_one({'link': link}, 'test_price')
+        global shared_delete_link_list
+        shared_delete_link_list.append(link)
+
 
 
 def send_req(link):
@@ -35,8 +40,20 @@ def iterate_collection(batch_size):
         data = [x for x in cursor]
 
         if data:
+
+            start_time = datetime.now()
+            #for d in data:
+            #   send_req(d['link'])
             p = Pool(len(data))
             p.map(send_req, [d['link'] for d in data])
+            end_time = datetime.now()
+            diff = int((end_time - start_time).total_seconds())
+            print(diff)
+            for link in shared_delete_link_list:
+                print('Deleting {} ...'.format(link))
+                ctx.mongo_adapter.delete_one({'link': link}, collection)
+                ctx.mongo_adapter.delete_one({'link': link}, 'test_cene')
+                shared_delete_link_list.remove(link)
 
         else:
             break
