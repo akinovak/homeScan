@@ -54,6 +54,10 @@ def iterate_collection(batch_size):
                 ctx.mongo_adapter.delete_one({'link': link}, collection)
                 ctx.mongo_adapter.delete_one({'link': link}, 'test_cene')
                 shared_delete_link_list.remove(link)
+            p.close()
+            p.join()
+
+
 
         else:
             break

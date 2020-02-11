@@ -25,7 +25,7 @@ class PolovniAutomobili(scrapy.Spider):
 
         print("BROJ STRNICA: " + str(numPages))
 
-        for i in range(50):
+        for i in range(numPages):
             url = 'https://www.polovniautomobili.com/auto-oglasi/pretraga?page=' + str(
                 i + 1) + '&sort=renewDate_desc&city_distance=0&showOldNew=all&without_price=1'
             arr_urls.append(url)
@@ -56,8 +56,9 @@ class PolovniAutomobili(scrapy.Spider):
         price = response.css('div.price-item::text').get()
         if price == '' or price is None:
             price = response.xpath('//div[has-class("price-item-discount position-relative")]').get()
-            price = price.replace('\n', '').replace(' ', '').replace('\t', '')
-            price = re.search(r'([0-9]*\.?[0-9]*)€', price).group(1)
+            if price == '' or price is not None:
+                price = price.replace('\n', '').replace(' ', '').replace('\t', '')
+                price = re.search(r'([0-9]*\.?[0-9]*)€', price).group(1)
 
         price = price.strip()
         if price == 'Po dogovoru' or price == 'Na upit':
