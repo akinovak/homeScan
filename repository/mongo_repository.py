@@ -7,7 +7,7 @@ class MongoRepository:
         self.mongo_adapter = mongo_adapter
 
     def _prepare_insert(self, o):
-        to_insert = {'link': o['link'], 'date': datetime.today().replace(hour=0, minute=0, second=0,microsecond=0), 'price': o['cena']}
+        to_insert = {'link': o['link'], 'date': datetime.today().replace(hour=0, minute=0, second=0, microsecond=0), 'price': o['cena']}
         return to_insert
 
     def _prepare_string(self):

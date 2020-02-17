@@ -1,6 +1,7 @@
 import math
 import re
 
+
 class PolovniAutomobiliTransformer:
 
     def __init__(self, transform_map, def_map):
@@ -21,25 +22,29 @@ class PolovniAutomobiliTransformer:
                 o[k] = v
 
     def _clean_up(self, o):
-        since = re.search('([0-9]*).', o['godiste'])
-        if since is not None:
-            o["godiste"] = int(since.group(1))
+        if o['godiste'] is not None and o['godiste'] != 0:
+            since = re.search('([0-9]*).', o['godiste'])
+            if since is not None:
+                o["godiste"] = int(since.group(1))
 
-        cub = re.search('([0-9]*) cm', o['kubikaza'])
-        if cub is not None:
-            o["kubikaza"] = int(cub.group(1))
+        if o['kubikaza'] is not None and o['kubikaza'] != 0:
+            cub = re.search('([0-9]*) cm', o['kubikaza'])
+            if cub is not None:
+                o["kubikaza"] = int(cub.group(1))
 
-        km1 = re.search('([0-9]*)\.?[0-9]* km', o['kilometraza'])
-        km2 = re.search('[0-9]*\.([0-9]*) km', o['kilometraza'])
-        if km1 is not None:
-            if km2 is not None:
-                o["kilometraza"] = int(km1.group(1)) * 1000 + int(km2.group(1))
-            else:
-                o["kilometraza"] = int(km1.group(1))
+        if o['kilometraza'] is not None and o['kilometraza'] != 0:
+            km1 = re.search('([0-9]*)\.?[0-9]* km', o['kilometraza'])
+            km2 = re.search('[0-9]*\.([0-9]*) km', o['kilometraza'])
+            if km1 is not None:
+                if km2 is not None:
+                    o["kilometraza"] = int(km1.group(1)) * 1000 + int(km2.group(1))
+                else:
+                    o["kilometraza"] = int(km1.group(1))
 
-        power = re.search('([0-9]*)\/([0-9]*) \(kW\/KS\)', o['snaga'])
-        if (power != None):
-            o["snaga"] = int(power.group(2))
+        if o['snaga'] is not None and o['snaga'] != 0:
+            power = re.search('([0-9]*)\/([0-9]*) \(kW\/KS\)', o['snaga'])
+            if power is not None:
+                o["snaga"] = int(power.group(2))
 
     def transform(self, o):
         self._transform_func(o)

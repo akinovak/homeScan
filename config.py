@@ -2,7 +2,9 @@ from transformers.srbija_nekretnine_transformer import SrbijaNekretnineTransform
 from transformers.polovni_automobili_transformer import PolovniAutomobiliTransformer
 from adapters.mongo_adapter import MongoAdapter
 from repository.mongo_repository import MongoRepository
+import logging, os
 
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class Ctx:
     def __init__(self):
@@ -120,6 +122,11 @@ class Ctx:
         self.pa_transformer = PolovniAutomobiliTransformer(self.pa_transform_map, self.pa_default_map)
         self.mongo_adapter = MongoAdapter('Polovni')
         self.mongo_repository = MongoRepository(self.mongo_adapter)
+
+        self.logger_path = os.path.join(ROOT_DIR, 'logger.log')
+        self.log = logging
+        self.log.basicConfig(filename=self.logger_path, level=logging.DEBUG)
+        self.log.info("TEST")
 
 
 ctx = Ctx()

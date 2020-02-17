@@ -23,8 +23,7 @@ test_price = db['test_cene']
 nesto = {
             "link": {
                 "$ne": 0
-            },
-            "marka": "Audi"
+            }
         }
 lista = list(polovni.aggregate([
     {

@@ -11,7 +11,7 @@ print('==================')
 print('Crawling started')
 s = get_project_settings()
 s['USER_AGENTS'] = ctx.user_agents
-s['DOWNLOAD_DELAY'] = 1
+s['DOWNLOAD_DELAY'] = 0.5
 s['DOWNLOADER_MIDDLEWARES'] = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy_useragents.downloadermiddlewares.useragents.UserAgentsMiddleware': 500,
