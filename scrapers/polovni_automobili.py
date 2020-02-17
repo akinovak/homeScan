@@ -1,9 +1,7 @@
 import scrapy
 import math
 import re
-import scrapy_splash
 from config import ctx
-from scrapy_splash import SplashRequest
 import datetime
 
 
