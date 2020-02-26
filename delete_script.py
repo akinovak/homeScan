@@ -57,8 +57,6 @@ def iterate_collection(batch_size):
             p.close()
             p.join()
 
-
-
         else:
             break
 
